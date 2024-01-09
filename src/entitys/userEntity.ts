@@ -1,8 +1,8 @@
 import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 
 enum IsActive {
-  active,
-  inActive,
+  Active = "active",
+  Inactive = "inActive",
 }
 @Entity()
 export class User {
@@ -24,6 +24,6 @@ export class User {
   @Column({ nullable: true })
   updateDate?: string;
 
-  @Column({ nullable: false })
+  @Column({ type: "text", default: IsActive.Active })
   isActive?: IsActive;
 }

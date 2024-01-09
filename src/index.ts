@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
 import "reflect-metadata";
-import { myDataSource } from "./app-data-source.ts";
+import { myDataSource } from "../app-data-source";
 
 const app = express();
 const port = process.env.PORT ?? 4000;
