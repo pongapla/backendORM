@@ -1,14 +1,19 @@
-import express, { Request, Response } from "express";
+import express from "express";
+import {
+  getAulluser,
+  getSingleuser,
+  createUser,
+  updateUser,
+  changePassword,
+  deleteUser,
+} from "./../controller/userController";
 
 const router = express.Router();
 
-router.get("/", (req: Request, res: Response) => {
-  try {
-    res.status(202).send("Hello world");
-  } catch (err) {
-    console.log(err);
-    res.status(500).send("Server error");
-  }
-});
-
+router.get("/", getAulluser);
+router.get("/:id", getSingleuser);
+router.post("/", createUser);
+router.put("/changPassword/id:", changePassword);
+router.put("/:id", updateUser);
+router.delete("/:id", deleteUser);
 export default router;

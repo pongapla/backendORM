@@ -7,23 +7,23 @@ enum IsActive {
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
-  id?: number;
+  id!: number;
 
   @Column({ nullable: false })
-  userName?: string;
+  userName!: string;
 
   @Column({ nullable: false })
-  email?: string;
+  email!: string;
 
   @Column({ nullable: false })
-  password?: string;
+  password!: string;
 
   @Column({ nullable: false })
-  createdDate?: string;
+  createdDate!: string;
 
   @Column({ nullable: true })
-  updateDate?: string;
+  updateDate!: string;
 
   @Column({ type: "text", default: IsActive.Active })
-  isActive?: IsActive;
+  isActive!: IsActive;
 }

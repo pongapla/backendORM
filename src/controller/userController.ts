@@ -60,7 +60,17 @@ export const updateUser = async (req: Request, res: Response) => {
     const checkUser = await userRepository.findOne({
       where: { id: Number(req.params.id) },
     });
+
     if (!checkUser) return res.status(404).send("ไม่มีผู้ใช้");
+    const checkUsername = await userRepository.findOne({
+      where: { userName: req.body.userName },
+    });
+    console.log(">>>>>", checkUsername);
+    if (checkUsername)
+      return res
+        .status(404)
+        .send(`ชื่อผู้ใช้นี้ : ${checkUser.userName} มีในระบบแล้ว`);
+
     userRepository.merge(checkUser, req.body);
     const result = await userRepository.save(checkUser);
     result && res.status(202).send("แก้ไขข้อมูลสำเร็จแล้ว");
@@ -97,4 +107,14 @@ export const changePassword = async (req: Request, res: Response) => {
     console.log(err);
     res.status(500).send("Server error");
   }
+};
+
+export const deleteUser = async (req: Request, res: Response) => {
+  const userRepository = await myDataSource.getRepository(User);
+  const checkUser = await userRepository.findOne({
+    where: { id: Number(req.params.id) },
+  });
+  if (!checkUser) return res.status(404).send("ไม่พบผู้ใช้งาน");
+  const removeUser = await userRepository.delete(req.params.id);
+  removeUser && res.status(202).send("ลบข้อมูลสำเร็จแล้ว");
 };
