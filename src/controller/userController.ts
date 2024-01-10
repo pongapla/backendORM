@@ -61,11 +61,11 @@ export const updateUser = async (req: Request, res: Response) => {
       where: { id: Number(req.params.id) },
     });
 
-    if (!checkUser) return res.status(404).send("ไม่มีผู้ใช้");
+    if (!checkUser) return res.status(404).send({ err: "ไม่มีผู้ใช้" });
     const checkUsername = await userRepository.findOne({
       where: { userName: req.body.userName },
     });
-    console.log(">>>>>", checkUsername);
+
     if (checkUsername)
       return res
         .status(404)
@@ -86,20 +86,31 @@ export const changePassword = async (req: Request, res: Response) => {
     const checkUser = await userRepository.findOne({
       where: { id: Number(req.params.id) },
     });
-    if (!checkUser) return res.status(404).send("ไม่พบผู้ใช้");
+
+    if (!checkUser) return res.status(404).send({ err: "ไม่พบผู้ใช้" });
     bcrypt.compare(
-      req.body.newpassword,
+      req.body.password,
       checkUser.password,
       async (err: any, result: any) => {
         // result == true
         if (result) {
-          const updatePassword = await userRepository
-            .createQueryBuilder()
-            .update(User)
-            .set({ password: req.body.newPassword })
-            .where("id = :id", { id: Number(req.params.id) })
-            .execute();
-          if (updatePassword) res.status(202).send("แก้ไขข้อมูลสำเร็จ");
+          bcrypt.hash(
+            req.body.newPassword,
+            saltRounds,
+            async (err: any, hash: any) => {
+              // Store hash in your password DB.
+              req.body.newPassword = hash;
+              const updatePassword = await userRepository
+                .createQueryBuilder()
+                .update(User)
+                .set({ password: req.body.newPassword })
+                .where("id = :id", { id: req.params.id })
+                .execute();
+              if (updatePassword) res.status(202).send("แก้ไขข้อมูลสำเร็จ");
+            }
+          );
+        } else {
+          return res.send("Password ไม่ถูกต้อง");
         }
       }
     );
@@ -114,7 +125,7 @@ export const deleteUser = async (req: Request, res: Response) => {
   const checkUser = await userRepository.findOne({
     where: { id: Number(req.params.id) },
   });
-  if (!checkUser) return res.status(404).send("ไม่พบผู้ใช้งาน");
+  if (!checkUser) return res.status(404).send({ err: "ไม่พบผู้ใช้งาน" });
   const removeUser = await userRepository.delete(req.params.id);
   removeUser && res.status(202).send("ลบข้อมูลสำเร็จแล้ว");
 };
