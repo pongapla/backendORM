@@ -1,31 +1,24 @@
+// return-in.entity.ts
 import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  CreateDateColumn,
   ManyToOne,
   JoinColumn,
 } from "typeorm";
 import { Product } from "./productEntity";
-import { User } from "./userEntity";
 
 @Entity()
-export class StockIn {
+export class ReturnIn {
   @PrimaryGeneratedColumn()
-  stockIn_id!: number;
+  return_id!: number;
 
-  @ManyToOne(() => Product, { eager: true, cascade: true })
+  @ManyToOne(() => Product, { nullable: false })
   @JoinColumn({ name: "product_id" })
   product!: Product;
 
-  @Column()
+  @Column({ type: "int", nullable: false })
   quantity!: number;
-
-  @Column({ type: "decimal", precision: 10, scale: 2 })
-  cost!: number;
-
-  @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
-  stockin_date!: Date;
 
   @Column({ type: "text", nullable: true })
   reference_document!: string;
@@ -33,12 +26,8 @@ export class StockIn {
   @Column({ type: "text", nullable: false })
   remark!: string;
 
-  @ManyToOne(() => User, { eager: true, cascade: true })
-  @JoinColumn({ name: "user_id" })
-  user!: User;
-
-  @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
-  created_at!: Date;
+  @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
+  return_date!: Date;
 
   // Inspection,Approva,Complete,Cancelled,Pending Delivery,Pending Stock Count,Pending Record
   @Column({ type: "text", default: "Inspection" })

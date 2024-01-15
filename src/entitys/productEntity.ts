@@ -20,6 +20,9 @@ export class Product {
   @Column({ type: "decimal", precision: 10, scale: 2, nullable: false })
   price!: number;
 
+  @Column({ type: "varchar", length: 255, nullable: false })
+  picture!: string;
+
   @Column({ type: "text", nullable: false })
   description!: string;
 

@@ -33,6 +33,12 @@ export class TransferIn {
   @JoinColumn({ name: "user_id" })
   user!: User;
 
+  @Column({ type: "text", nullable: true })
+  reference_document!: string;
+
+  @Column({ type: "text", nullable: false })
+  remark!: string;
+
   @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
   created_at!: Date;
   // Inspection,Approva,Complete,Cancelled,Pending Delivery,Pending Stock Count,Pending Record
