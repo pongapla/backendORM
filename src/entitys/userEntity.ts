@@ -7,7 +7,7 @@ enum IsActive {
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
-  id!: number;
+  user_id!: number;
 
   @Column({ nullable: false })
   userName!: string;

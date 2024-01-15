@@ -20,7 +20,7 @@ export const getSingleuser = async (req: Request, res: Response) => {
     const userRepository = await myDataSource.getRepository(User);
     const userSingle = await userRepository.findOne({
       where: {
-        id: Number(req.params.id),
+        user_id: Number(req.params.id),
       },
     });
 
@@ -35,7 +35,7 @@ export const createUser = async (req: Request, res: Response) => {
   try {
     const userRepository = await myDataSource.getRepository(User);
     const checkUser = await userRepository.findOne({
-      where: { id: req.body.userName },
+      where: { user_id: req.body.userName },
     });
     if (checkUser)
       return res
@@ -58,7 +58,7 @@ export const updateUser = async (req: Request, res: Response) => {
   try {
     const userRepository = await myDataSource.getRepository(User);
     const checkUser = await userRepository.findOne({
-      where: { id: Number(req.params.id) },
+      where: { user_id: Number(req.params.id) },
     });
 
     if (!checkUser) return res.status(404).send({ err: "ไม่มีผู้ใช้" });
@@ -84,7 +84,7 @@ export const changePassword = async (req: Request, res: Response) => {
   try {
     const userRepository = await myDataSource.getRepository(User);
     const checkUser = await userRepository.findOne({
-      where: { id: Number(req.params.id) },
+      where: { user_id: Number(req.params.id) },
     });
 
     if (!checkUser) return res.status(404).send({ err: "ไม่พบผู้ใช้" });
@@ -123,7 +123,7 @@ export const changePassword = async (req: Request, res: Response) => {
 export const deleteUser = async (req: Request, res: Response) => {
   const userRepository = await myDataSource.getRepository(User);
   const checkUser = await userRepository.findOne({
-    where: { id: Number(req.params.id) },
+    where: { user_id: Number(req.params.id) },
   });
   if (!checkUser) return res.status(404).send({ err: "ไม่พบผู้ใช้งาน" });
   const removeUser = await userRepository.delete(req.params.id);
