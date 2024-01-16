@@ -21,6 +21,10 @@ myDataSource
 
 app.use("/api/user", require("./routes/userRoutes").default);
 app.use("/api/sendEmail", require("./routes/sendEmailRoutes").default);
+app.use(
+  "/api/reportProduct",
+  require("./routes/report/reportProductRoutes").default
+);
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
