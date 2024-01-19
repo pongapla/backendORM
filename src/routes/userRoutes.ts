@@ -7,13 +7,13 @@ import {
   changePassword,
   deleteUser,
 } from "./../controller/userController";
-
+import { auth } from "./../middleware/auth";
 const router = express.Router();
 
-router.get("/", getAulluser);
-router.get("/:id", getSingleuser);
-router.post("/", createUser);
-router.put("/changPassword/:id", changePassword);
-router.put("/:id", updateUser);
-router.delete("/:id", deleteUser);
+router.get("/", auth, getAulluser);
+router.get("/:id", auth, getSingleuser);
+router.post("/", auth, createUser);
+router.put("/changPassword/:id", auth, changePassword);
+router.put("/:id", auth, updateUser);
+router.delete("/:id", auth, deleteUser);
 export default router;

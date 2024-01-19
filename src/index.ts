@@ -18,7 +18,7 @@ myDataSource
   .catch((err: any) => {
     console.error("Error during Data Source initialization:", err);
   });
-
+app.use("/api/login", require("./routes/auth").default);
 app.use("/api/user", require("./routes/userRoutes").default);
 app.use("/api/sendEmail", require("./routes/sendEmailRoutes").default);
 app.use(
